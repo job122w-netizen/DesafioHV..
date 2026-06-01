@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudyGrove 🌿</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="multijugador.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- SPLASH / ONBOARDING -->
+<div id="splash-screen" class="splash-screen">
+  <div class="splash-content">
+    <div class="splash-logo">🌿</div>
+    <h1 class="splash-title">StudyGrove</h1>
+    <p class="splash-sub">Tu jardín del conocimiento</p>
+    <div class="splash-setup" id="splash-setup" style="display:none">
+      <p class="splash-label">¿Cómo te llamamos?</p>
+      <input type="text" id="setup-name" class="splash-input" placeholder="Tu nombre…" maxlength="20"/>
+      <button class="splash-btn" onclick="finishSetup()">🌱 Comenzar</button>
+    </div>
+    <div class="splash-loader" id="splash-loader">
+      <div class="loader-dots"><span></span><span></span><span></span></div>
+      <p>Sincronizando con la nube…</p>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">🌿 StudyGrove</div>
+    <button class="close-sidebar" onclick="toggleSidebar()">✕</button>
+  </div>
+  <div class="sidebar-profile-mini" onclick="showSection('profile',navBtns[4])">
+    <div class="spm-avatar" id="spm-avatar">🌳</div>
+    <div class="spm-info">
+      <div class="spm-name" id="spm-name">—</div>
+      <div class="spm-code" id="spm-code">—</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-btn active" onclick="showSection('home',this)"><span class="nav-icon">🏠</span>Inicio</button>
+    <button class="nav-btn" onclick="showSection('log',this)"><span class="nav-icon">📚</span>Registrar</button>
+    <button class="nav-btn" onclick="showSection('history',this)"><span class="nav-icon">📋</span>Historial</button>
+    <button class="nav-btn" onclick="showSection('stats',this)"><span class="nav-icon">📊</span>Estadísticas</button>
+    <button class="nav-btn" onclick="showSection('profile',this)"><span class="nav-icon">👤</span>Perfil</button>
+    <button class="nav-btn" onclick="showSection('shop',this)"><span class="nav-icon">🛒</span>Tienda</button>
+    <button class="nav-btn" onclick="showSection('battlepass',this)"><span class="nav-icon">⚔️</span>Pase de Batalla</button>
+    <button class="nav-btn" onclick="showSection('ranking',this)"><span class="nav-icon">🏆</span>Ranking</button>
+    <button class="nav-btn" onclick="showSection('friends',this)"><span class="nav-icon">👥</span>Amigos</button>
+  </nav>
+</aside>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- MAIN -->
+<main class="app">
+  <header class="topbar">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title" id="topbar-title">StudyGrove</div>
+    <div class="coins-badge">
+      <span>⭐</span>
+      <span id="coins-display">0</span>
+    </div>
+  </header>
+
+  <!-- ══════════ HOME ══════════ -->
+  <section class="section active" id="section-home">
+    <div class="home-content">
+      <p class="greeting" id="greeting-text">¡Empieza a plantar hoy!</p>
+      <div class="plant-circle-wrap">
+        <div class="plant-circle">
+          <div class="ground"></div>
+          <div class="plant-emoji" id="plant-emoji">🌱</div>
+        </div>
+        <div class="xp-ring">
+          <svg viewBox="0 0 120 120" class="ring-svg">
+            <circle cx="60" cy="60" r="54" class="ring-bg"/>
+            <circle cx="60" cy="60" r="54" class="ring-fill" id="ring-fill"
+              stroke-dasharray="339.3" stroke-dashoffset="339.3"/>
+          </svg>
+        </div>
+      </div>
+      <p class="plant-level-label" id="plant-label">Semilla</p>
+      <div class="today-cards">
+        <div class="today-card">
+          <div class="tc-value" id="today-minutes">0</div>
+          <div class="tc-label">min hoy</div>
+        </div>
+        <div class="today-card">
+          <div class="tc-value" id="today-sessions">0</div>
+          <div class="tc-label">sesiones</div>
+        </div>
+        <div class="today-card">
+          <div class="tc-value" id="total-hours">0</div>
+          <div class="tc-label">hrs totales</div>
+        </div>
+      </div>
+      <!-- Streak banner -->
+      <div class="streak-banner" id="streak-banner">
+        <span>🔥</span> <span id="streak-count">0</span> días seguidos
+      </div>
+      <button class="btn-primary big-btn" onclick="showSection('log',navBtns[1])">➕ Registrar sesión</button>
+    </div>
+  </section>
+
+  <!-- ══════════ LOG ══════════ -->
+  <section class="section" id="section-log">
+    <div class="form-card">
+      <h2 class="form-title">📚 Nueva Sesión</h2>
+      <div class="form-group">
+        <label>Materia / Tema</label>
+        <input type="text" id="log-subject" placeholder="Ej: Matemáticas, Historia…" class="input-field"/>
+      </div>
+      <div class="form-group">
+        <label>Duración</label>
+        <div class="duration-row">
+          <div class="dur-input-wrap">
+            <input type="number" id="log-hours" placeholder="0" min="0" max="23" class="input-field dur-input"/>
+            <span class="dur-label">horas</span>
+          </div>
+          <div class="dur-input-wrap">
+            <input type="number" id="log-minutes" placeholder="0" min="0" max="59" class="input-field dur-input"/>
+            <span class="dur-label">min</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="log-date" class="input-field"/>
+      </div>
+      <div class="form-group">
+        <label>Notas (opcional)</label>
+        <textarea id="log-notes" placeholder="¿Qué estudiaste hoy?" class="input-field textarea-field" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Etiqueta</label>
+        <div class="tags-row" id="tag-selector">
+          <button class="tag-btn selected" data-tag="Estudio">📖 Estudio</button>
+          <button class="tag-btn" data-tag="Lectura">📕 Lectura</button>
+          <button class="tag-btn" data-tag="Práctica">✏️ Práctica</button>
+          <button class="tag-btn" data-tag="Repaso">🔄 Repaso</button>
+          <button class="tag-btn" data-tag="Proyecto">💻 Proyecto</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveSession()">🌱 Guardar Sesión</button>
+      <div class="toast" id="toast"></div>
+    </div>
+  </section>
+
+  <!-- ══════════ HISTORY ══════════ -->
+  <section class="section" id="section-history">
+    <div class="history-header">
+      <h2 class="section-title">📋 Historial</h2>
+      <input type="text" id="search-input" class="search-field" placeholder="🔍 Buscar…" oninput="renderHistory()"/>
+    </div>
+    <div class="history-list" id="history-list">
+      <div class="empty-state"><div class="empty-icon">🌿</div><p>Aún no hay sesiones.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ STATS ══════════ -->
+  <section class="section" id="section-stats">
+    <h2 class="section-title">📊 Estadísticas</h2>
+    <div class="stats-grid">
+      <div class="stat-card big">
+        <div class="stat-value" id="stat-total-hours">0h 0m</div>
+        <div class="stat-label">Tiempo total de estudio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-sessions">0</div>
+        <div class="stat-label">Sesiones totales</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-avg">0m</div>
+        <div class="stat-label">Promedio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-best">0m</div>
+        <div class="stat-label">Sesión más larga</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Últimos 7 días</h3>
+      <div class="bar-chart" id="bar-chart"></div>
+    </div>
+    <div class="chart-card">
+      <h3>Por materia</h3>
+      <div class="subject-bars" id="subject-bars"></div>
+    </div>
+  </section>
+
+  <!-- ══════════ PROFILE ══════════ -->
+  <section class="section" id="section-profile">
+    <div class="profile-hero">
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatar-display">🌳</div>
+        <button class="avatar-edit-btn" onclick="document.getElementById('avatar-options').classList.toggle('open')">✏️</button>
+        <div class="avatar-options" id="avatar-options">
+          <div class="ao-tab-row">
+            <button class="ao-tab active" onclick="switchAvatarTab('emoji',this)">Emoji</button>
+            <button class="ao-tab" onclick="switchAvatarTab('photo',this)">📷 Foto</button>
+          </div>
+          <div id="ao-emoji-grid" class="ao-emoji-grid">
+            🌱🌿🌳🌲🦋🦉🐢🐸🌻🍀🌺🌸🦊🐺🦁🐯🦅🐬🦄🌙⭐🔥💎🎯🏆🎨🎭🎪🎸🎺
+          </div>
+          <div id="ao-photo-area" class="ao-photo-area" style="display:none">
+            <label class="photo-upload-btn" for="photo-upload-input">📁 Elegir foto</label>
+            <input type="file" id="photo-upload-input" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)"/>
+            <p class="photo-hint">La foto se comprime automáticamente</p>
+          </div>
+        </div>
+      </div>
+      <div class="profile-name-wrap">
+        <div class="profile-name" id="profile-name-display" onclick="editName()">Mi Nombre</div>
+        <input type="text" id="profile-name-input" class="profile-name-input" style="display:none"
+          onblur="saveName()" onkeydown="if(event.key==='Enter')saveName()"/>
+        <div class="profile-level" id="profile-level-display">🌱 Semilla</div>
+        <div class="profile-code-badge" id="profile-code-badge">
+          <span id="profile-code-text">—</span>
+          <button class="copy-code-btn" onclick="copyMyCode()">📋</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="ps-card"><div class="ps-val" id="ps-hours">0h</div><div class="ps-lbl">estudiadas</div></div>
+      <div class="ps-card"><div class="ps-val" id="ps-sessions">0</div><div class="ps-lbl">sesiones</div></div>
+      <div class="ps-card"><div class="ps-val" id="ps-coins">0</div><div class="ps-lbl">⭐ estrellas</div></div>
+    </div>
+
+    <div class="xp-section">
+      <div class="xp-label-row">
+        <span>Progreso de nivel</span>
+        <span id="xp-text">0 / 60 min</span>
+      </div>
+      <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
+    </div>
+
+    <div class="achievements-section">
+      <h3>🏆 Logros</h3>
+      <div class="achievements-grid" id="achievements-grid"></div>
+    </div>
+
+    <div class="danger-zone">
+      <button class="btn-danger" onclick="clearAllData()">🗑️ Borrar todos los datos</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SHOP ══════════ -->
+  <section class="section" id="section-shop">
+    <h2 class="section-title">🛒 Tienda</h2>
+    <div class="shop-balance">
+      <span>⭐</span><span id="shop-coins">0</span> estrellas disponibles
+    </div>
+    <div class="shop-tabs">
+      <button class="shop-tab active" onclick="switchShopTab('emojis',this)">🌱 Plantas</button>
+      <button class="shop-tab" onclick="switchShopTab('frames',this)">🖼️ Marcos</button>
+      <button class="shop-tab" onclick="switchShopTab('titles',this)">🏷️ Títulos</button>
+    </div>
+    <div class="shop-grid" id="shop-grid"></div>
+  </section>
+
+  <!-- ══════════ BATTLE PASS ══════════ -->
+  <section class="section" id="section-battlepass">
+    <h2 class="section-title">⚔️ Pase de Batalla</h2>
+    <div class="bp-season-badge" id="bp-season-badge">Temporada —</div>
+    <div class="bp-xp-row">
+      <span>XP del pase:</span>
+      <span id="bp-xp-val">0 XP</span>
+    </div>
+    <div class="xp-bar-wrap"><div class="xp-bar-fill" id="bp-bar-fill" style="background:linear-gradient(90deg,#f5c842,#ff8c42)"></div></div>
+    <div class="bp-track" id="bp-track"></div>
+  </section>
+
+  <!-- ══════════ RANKING ══════════ -->
+  <section class="section" id="section-ranking">
+    <h2 class="section-title">🏆 Ranking Mensual</h2>
+    <div class="ranking-month" id="ranking-month">—</div>
+    <div class="ranking-reset-info">Se reinicia cada 1ro del mes</div>
+    <div class="ranking-list" id="ranking-list">
+      <div class="empty-state"><div class="empty-icon">🏆</div><p>Cargando ranking…</p></div>
+    </div>
+    <div class="my-rank-bar" id="my-rank-bar" style="display:none">
+      <span>Tu posición:</span> <strong id="my-rank-pos">#—</strong>
+    </div>
+  </section>
+
+  <!-- ══════════ FRIENDS ══════════ -->
+  <section class="section" id="section-friends">
+    <h2 class="section-title">👥 Amigos</h2>
+    <div class="my-code-card">
+      <p class="mcc-label">Tu código de amigo</p>
+      <div class="mcc-code" id="mcc-code">—</div>
+      <button class="btn-primary small-btn" onclick="copyMyCode()">📋 Copiar código</button>
+    </div>
+    <div class="add-friend-card">
+      <p class="afc-label">Añadir amigo</p>
+      <div class="afc-row">
+        <input type="text" id="friend-code-input" class="input-field" placeholder="Código SGR-XXXX-XXXX"/>
+        <button class="btn-primary small-btn" onclick="addFriend()">➕</button>
+      </div>
+    </div>
+    <h3 class="friends-list-title">Mis amigos <span id="friends-count">(0)</span></h3>
+    <div class="friends-list" id="friends-list">
+      <div class="empty-state"><div class="empty-icon">👥</div><p>Aún no tienes amigos.<br/>¡Comparte tu código!</p></div>
+    </div>
+
+    <!-- RANKING GLOBAL EN TIEMPO REAL -->
+    <div class="mp-section-header" style="margin-top:24px">
+      <h3>🌍 Jugadores globales</h3>
+      <button class="mp-global-chat-btn" onclick="MP.openGlobalChat()">
+        💬 Chat Global
+        <span class="mp-badge" id="mp-global-chat-badge"></span>
+      </button>
+    </div>
+    <div id="mp-ranking-list"></div>
+
+    <!-- DESAFÍOS -->
+    <div class="mp-challenges-wrap">
+      <h3>⚔️ Desafíos
+        <span class="mp-badge" id="mp-challenge-badge"></span>
+      </h3>
+      <div id="mp-challenges-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL CHAT (privado y global) -->
+<div class="mp-modal" id="mp-chat-modal">
+  <div class="mp-modal-box">
+    <div class="mp-modal-header">
+      <h3 id="mp-chat-title">💬 Chat</h3>
+      <button class="mp-close-btn" onclick="MP.closeChat()">✕</button>
+    </div>
+    <div class="mp-chat-messages" id="mp-chat-messages"></div>
+    <div class="mp-chat-input-row">
+      <input class="mp-chat-input" id="mp-chat-input"
+        placeholder="Escribe un mensaje…"
+        onkeydown="if(event.key==='Enter'){MP.sendChatMessage(this.value);this.value='';}"/>
+      <button class="mp-chat-send-btn"
+        onclick="const i=document.getElementById('mp-chat-input');MP.sendChatMessage(i.value);i.value=''">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DESAFÍO -->
+<div class="mp-modal" id="mp-challenge-modal">
+  <div class="mp-modal-box">
+    <div class="mp-modal-header">
+      <h3 id="mp-challenge-modal-title">⚔️ Desafío</h3>
+      <button class="mp-close-btn" onclick="MP.closeChallengeModal()">✕</button>
+    </div>
+    <input type="hidden" id="mp-challenge-friend-uid"/>
+    <div class="mp-challenge-form">
+      <label>Tipo de desafío</label>
+      <select class="mp-challenge-select" id="mp-challenge-type">
+        <option value="study">📚 Estudiar más minutos</option>
+        <option value="coins">⭐ Ganar más estrellas</option>
+        <option value="streak">🔥 Mantener más racha</option>
+      </select>
+      <label>Duración</label>
+      <select class="mp-challenge-select" id="mp-challenge-hours">
+        <option value="1">1 hora</option>
+        <option value="6">6 horas</option>
+        <option value="24" selected>24 horas</option>
+        <option value="72">3 días</option>
+        <option value="168">1 semana</option>
+      </select>
+      <button class="mp-btn-send-challenge" onclick="MP.submitChallenge()">⚔️ Enviar desafío</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEVEL UP MODAL -->
+<div class="modal-overlay" id="levelup-modal" style="display:none">
+  <div class="modal-box levelup-box">
+    <div class="lu-emoji" id="lu-emoji">🌳</div>
+    <h2 class="lu-title">¡Subiste de nivel!</h2>
+    <p class="lu-name" id="lu-name">Árbol joven</p>
+    <button class="btn-primary" onclick="closeLevelUp()">🎉 ¡Genial!</button>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module" src="app.js"></script>
+<script type="module" src="firebase-multiplayer.js"></script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+/* ══════════════════════════════════════════════════════════════
+   StudyGrove — multijugador.css
+   Estilos del módulo multijugador
+   Paleta: oscura, tonos verde musgo / jade, coherente con HVsj.css
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Variables del módulo ────────────────────────────────────── */
+:root {
+  --mp-green:        #4caf82;
+  --mp-green-dark:   #2e7d5a;
+  --mp-green-glow:   rgba(76, 175, 130, 0.25);
+  --mp-red:          #e05c5c;
+  --mp-red-dim:      rgba(224, 92, 92, 0.15);
+  --mp-gold:         #f0c040;
+  --mp-gold-dim:     rgba(240, 192, 64, 0.15);
+  --mp-blue:         #4a90d9;
+  --mp-blue-dim:     rgba(74, 144, 217, 0.15);
+  --mp-surface:      rgba(255, 255, 255, 0.04);
+  --mp-border:       rgba(255, 255, 255, 0.08);
+  --mp-border-hover: rgba(76, 175, 130, 0.35);
+  --mp-text:         #e8f4ee;
+  --mp-text-dim:     #7a9e8a;
+  --mp-modal-bg:     #13201a;
+  --mp-radius:       14px;
+  --mp-radius-sm:    8px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECCIÓN RANKING MULTIJUGADOR
+   ══════════════════════════════════════════════════════════════ */
+.mp-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.mp-section-header h3 {
+  font-size: 1rem;
+  color: var(--mp-text);
+  margin: 0;
+}
+
+.mp-global-chat-btn {
+  position: relative;
+  background: linear-gradient(135deg, var(--mp-green-dark), #1f5e3e);
+  border: 1px solid var(--mp-green-dark);
+  border-radius: var(--mp-radius-sm);
+  color: #fff;
+  padding: 6px 13px;
+  cursor: pointer;
+  font-size: 0.82em;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+.mp-global-chat-btn:hover { opacity: 0.85; }
+
+/* ── Tarjetas de ranking multijugador ──────────────────────── */
+#mp-ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mp-rank-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  transition: border-color 0.2s;
+}
+.mp-rank-card:hover { border-color: var(--mp-border-hover); }
+
+.mp-rank-card.top1 { border-color: rgba(240, 192, 64, 0.45); background: rgba(240, 192, 64, 0.06); }
+.mp-rank-card.top2 { border-color: rgba(192, 192, 192, 0.3); }
+.mp-rank-card.top3 { border-color: rgba(180, 120, 60, 0.3); }
+
+.mp-rank-pos   { font-size: 1.1em; width: 28px; text-align: center; flex-shrink: 0; }
+.mp-rank-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3em; flex-shrink: 0;
+  background: rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.mp-rank-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.mp-rank-info  { flex: 1; overflow: hidden; }
+.mp-rank-name  {
+  font-size: 0.88em; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--mp-text);
+}
+.mp-rank-level { font-size: 0.72em; color: var(--mp-text-dim); }
+.mp-rank-time  { font-size: 0.8em; color: var(--mp-green); font-weight: 600; }
+
+.mp-rank-status { font-size: 0.68em; color: var(--mp-text-dim); }
+.mp-rank-status.online { color: var(--mp-green); }
+
+/* ══════════════════════════════════════════════════════════════
+   DESAFÍOS
+   ══════════════════════════════════════════════════════════════ */
+.mp-challenges-wrap {
+  margin-top: 20px;
+}
+.mp-challenges-wrap h3 {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: var(--mp-text);
+}
+
+#mp-challenges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mp-challenge-card {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius);
+  padding: 14px;
+  transition: border-color 0.2s;
+}
+.mp-challenge-card.status-pending   { border-color: rgba(240, 192, 64, 0.3); }
+.mp-challenge-card.status-active    { border-color: rgba(76, 175, 130, 0.35); }
+.mp-challenge-card.status-completed { border-color: rgba(74, 144, 217, 0.3); }
+.mp-challenge-card.status-rejected  { border-color: var(--mp-border); opacity: 0.65; }
+
+.mp-challenge-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.mp-challenge-icon { font-size: 1.3em; flex-shrink: 0; }
+.mp-challenge-meta { flex: 1; }
+.mp-challenge-meta h4 {
+  margin: 0 0 2px;
+  font-size: 0.9em;
+  color: var(--mp-text);
+}
+.mp-challenge-meta small { font-size: 0.74em; color: var(--mp-text-dim); }
+
+.mp-status-badge {
+  font-size: 0.7em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.mp-status-badge.pending   { background: var(--mp-gold-dim);  color: var(--mp-gold); }
+.mp-status-badge.active    { background: var(--mp-green-glow); color: var(--mp-green); }
+.mp-status-badge.completed { background: var(--mp-blue-dim);  color: var(--mp-blue); }
+.mp-status-badge.rejected  { background: rgba(255,255,255,0.05); color: #666; }
+
+/* Acciones desafío */
+.mp-challenge-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.mp-btn-accept, .mp-btn-reject {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--mp-radius-sm);
+  font-size: 0.88em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.mp-btn-accept:hover, .mp-btn-reject:hover { opacity: 0.85; }
+
+.mp-btn-accept {
+  background: linear-gradient(135deg, var(--mp-green-dark), #1f5e3e);
+  border: none;
+  color: #fff;
+}
+.mp-btn-reject {
+  background: var(--mp-red-dim);
+  border: 1px solid rgba(224, 92, 92, 0.3);
+  color: var(--mp-red);
+}
+
+.mp-waiting {
+  font-size: 0.82em;
+  color: var(--mp-gold);
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Barras de progreso */
+.mp-progress { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.mp-prog-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78em;
+  color: var(--mp-text-dim);
+}
+.mp-prog-row > span:first-child {
+  width: 65px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mp-prog-row > span:last-child { width: 36px; text-align: right; }
+.mp-prog-bar {
+  flex: 1;
+  height: 7px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.mp-prog-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.mp-prog-fill.mine  { background: linear-gradient(90deg, var(--mp-green-dark), var(--mp-green)); }
+.mp-prog-fill.rival { background: linear-gradient(90deg, #7a3a3a, var(--mp-red)); }
+
+.mp-result {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: var(--mp-radius-sm);
+  font-size: 0.87em;
+  text-align: center;
+}
+.mp-result.won  { background: var(--mp-green-glow); color: var(--mp-green); }
+.mp-result.lost { background: var(--mp-red-dim);    color: var(--mp-red); }
+
+/* ── Botón enviar desafío en tarjeta de amigo ─────────────── */
+.mp-friend-challenge-btn {
+  background: none;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  color: var(--mp-text-dim);
+  padding: 5px 9px;
+  font-size: 0.88em;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.mp-friend-challenge-btn:hover {
+  background: var(--mp-red-dim);
+  border-color: rgba(224, 92, 92, 0.4);
+  color: var(--mp-red);
+}
+
+.mp-friend-chat-btn {
+  background: none;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  color: var(--mp-text-dim);
+  padding: 5px 9px;
+  font-size: 0.88em;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.mp-friend-chat-btn:hover {
+  background: var(--mp-blue-dim);
+  border-color: rgba(74, 144, 217, 0.4);
+  color: var(--mp-blue);
+}
+
+/* ── Badge de notificación ────────────────────────────────── */
+.mp-badge {
+  display: none;
+  background: var(--mp-red);
+  color: #fff;
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+  font-size: 0;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: mp-pulse 1.6s ease-in-out infinite;
+}
+@keyframes mp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MODALES (chat y desafío)
+   Bottom-sheet en móvil
+   ══════════════════════════════════════════════════════════════ */
+.mp-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.65);
+  display: none;             /* flex cuando abierto */
+  align-items: flex-end;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.mp-modal.open { display: flex; }
+
+.mp-modal-box {
+  background: var(--mp-modal-bg);
+  border-radius: 20px 20px 0 0;
+  border-top: 1px solid rgba(76, 175, 130, 0.2);
+  width: 100%;
+  max-width: 520px;
+  padding: 18px 16px 20px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+  animation: mp-slide-up 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+@keyframes mp-slide-up {
+  from { transform: translateY(60px); opacity: 0.5; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.mp-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.mp-modal-header h3 {
+  margin: 0;
+  font-size: 0.98em;
+  color: var(--mp-text);
+}
+.mp-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  width: 28px; height: 28px;
+  color: var(--mp-text);
+  font-size: 0.85em;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.mp-close-btn:hover { background: rgba(255,255,255,0.14); }
+
+/* ══════════════════════════════════════════════════════════════
+   CHAT
+   ══════════════════════════════════════════════════════════════ */
+.mp-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  /* Altura relativa al modal */
+  max-height: calc(82vh - 160px);
+}
+.mp-chat-messages::-webkit-scrollbar { width: 4px; }
+.mp-chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.mp-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 78%;
+}
+.mp-msg.mine   { align-self: flex-end;  align-items: flex-end; }
+.mp-msg.theirs { align-self: flex-start; align-items: flex-start; }
+
+.mp-msg-sender {
+  font-size: 0.69em;
+  color: var(--mp-text-dim);
+  margin-bottom: 2px;
+}
+.mp-msg-bubble {
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-size: 0.88em;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.mp-msg.mine .mp-msg-bubble {
+  background: linear-gradient(135deg, var(--mp-green-dark), #1f5e3e);
+  color: #fff;
+  border-radius: 14px 14px 2px 14px;
+}
+.mp-msg.theirs .mp-msg-bubble {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--mp-text);
+  border-radius: 14px 14px 14px 2px;
+}
+.mp-msg-time {
+  font-size: 0.66em;
+  color: #444;
+  margin-top: 2px;
+}
+
+.mp-chat-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.mp-chat-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--mp-border);
+  border-radius: 12px;
+  padding: 10px 13px;
+  color: var(--mp-text);
+  font-size: 0.88em;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.mp-chat-input:focus { border-color: var(--mp-green-dark); }
+.mp-chat-input::placeholder { color: var(--mp-text-dim); }
+
+.mp-chat-send-btn {
+  background: linear-gradient(135deg, var(--mp-green-dark), #1f5e3e);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+.mp-chat-send-btn:hover { opacity: 0.85; }
+
+/* ══════════════════════════════════════════════════════════════
+   MODAL DESAFÍO
+   ══════════════════════════════════════════════════════════════ */
+.mp-challenge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.mp-challenge-form label {
+  font-size: 0.8em;
+  color: var(--mp-text-dim);
+  margin-bottom: -8px;
+}
+.mp-challenge-select, .mp-challenge-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--mp-border);
+  border-radius: 12px;
+  padding: 10px 13px;
+  color: var(--mp-text);
+  font-size: 0.88em;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.mp-challenge-select:focus, .mp-challenge-input:focus {
+  border-color: var(--mp-green-dark);
+}
+.mp-challenge-select option { background: #1a2e20; }
+
+.mp-btn-send-challenge {
+  background: linear-gradient(135deg, #7a2e2e, #5e1a1a);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  padding: 13px;
+  font-size: 0.95em;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: opacity 0.15s;
+  margin-top: 2px;
+}
+.mp-btn-send-challenge:hover { opacity: 0.88; }
+
+/* ══════════════════════════════════════════════════════════════
+   ESTADO VACÍO
+   ══════════════════════════════════════════════════════════════ */
+.mp-empty-state {
+  text-align: center;
+  padding: 28px 16px;
+  color: var(--mp-text-dim);
+}
+.mp-empty-icon {
+  font-size: 2.2em;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+.mp-empty-state p {
+  font-size: 0.85em;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ACCESIBILIDAD Y UTILIDADES
+   ══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .mp-badge, .mp-modal-box { animation: none; }
+  .mp-prog-fill { transition: none; }
+}
